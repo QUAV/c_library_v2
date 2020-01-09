@@ -715,6 +715,9 @@
       <entry value="197" name="MAV_COMP_ID_VISUAL_INERTIAL_ODOMETRY">
         <description>Component that provides position estimates using VIO techniques.</description>
       </entry>
+      <entry value="198" name="MAV_COMP_ID_PAIRING_MANAGER">
+        <description>Component that manages pairing of vehicle and GCS.</description>
+      </entry>
       <entry value="200" name="MAV_COMP_ID_IMU">
         <description>Inertial Measurement Unit (IMU) #1.</description>
       </entry>
@@ -989,6 +992,9 @@
       </entry>
       <entry value="4" name="MAV_MOUNT_MODE_GPS_POINT">
         <description>Load neutral position and start to point to Lat,Lon,Alt</description>
+      </entry>
+      <entry value="5" name="MAV_MOUNT_MODE_SYSID_TARGET">
+        <description>Gimbal tracks system with specified system ID</description>
       </entry>
     </enum>
     <!-- UAVCAN node health enumeration -->
@@ -1508,8 +1514,8 @@
         <param index="2" label="Bitmask" enum="MAV_DO_REPOSITION_FLAGS">Bitmask of option flags.</param>
         <param index="3">Reserved</param>
         <param index="4" label="Yaw">Yaw heading, NaN for unchanged. For planes indicates loiter direction (0: clockwise, 1: counter clockwise)</param>
-        <param index="5">Latitude (deg * 1E7)</param>
-        <param index="6">Longitude (deg * 1E7)</param>
+        <param index="5">Latitude</param>
+        <param index="6">Longitude</param>
         <param index="7">Altitude (meters)</param>
       </entry>
       <entry value="193" name="MAV_CMD_DO_PAUSE_CONTINUE" hasLocation="false" isDestination="false">
@@ -1561,6 +1567,10 @@
         <param index="5">Empty</param>
         <param index="6">Empty</param>
         <param index="7">Empty</param>
+      </entry>
+      <entry value="198" name="MAV_CMD_DO_SET_ROI_SYSID">
+        <description>Mount tracks system with specified system ID. Determination of target vehicle position may be done with GLOBAL_POSITION_INT or any other means.</description>
+        <param index="1" label="System ID" minValue="1" maxValue="255" increment="1">sysid</param>
       </entry>
       <entry value="200" name="MAV_CMD_DO_CONTROL_VIDEO" hasLocation="false" isDestination="false">
         <description>Control onboard camera system.</description>
@@ -1622,8 +1632,8 @@
         <param index="2">roll depending on mount mode (degrees or degrees/second depending on roll input).</param>
         <param index="3">yaw depending on mount mode (degrees or degrees/second depending on yaw input).</param>
         <param index="4" label="Altitude" units="m">altitude depending on mount mode.</param>
-        <param index="5">latitude in degrees * 1E7, set if appropriate mount mode.</param>
-        <param index="6">longitude in degrees * 1E7, set if appropriate mount mode.</param>
+        <param index="5">latitude, set if appropriate mount mode.</param>
+        <param index="6">longitude, set if appropriate mount mode.</param>
         <param index="7" label="Mode" enum="MAV_MOUNT_MODE">Mount mode.</param>
       </entry>
       <entry value="206" name="MAV_CMD_DO_SET_CAM_TRIGG_DIST" hasLocation="false" isDestination="false">
@@ -1829,6 +1839,12 @@
         <param index="1" label="Arm" minValue="0" maxValue="1" increment="1">0: disarm, 1: arm</param>
         <param index="2" label="Force" minValue="0" maxValue="21196" increment="21196">0: arm-disarm unless prevented by safety checks (i.e. when landed), 21196: force arming/disarming (e.g. allow arming to override preflight checks and disarming in flight)</param>
       </entry>
+      <entry value="405" name="MAV_CMD_ILLUMINATOR_ON_OFF" hasLocation="false" isDestination="false">
+        <wip/>
+        <!-- This message is work-in-progress and it can therefore change. It should NOT be used in stable production environments. -->
+        <description>Turns illuminators ON/OFF. An illuminator is a light source that is used for lighting up dark areas external to the sytstem: e.g. a torch or searchlight (as opposed to a light source for illuminating the system itself, e.g. an indicator light).</description>
+        <param index="1" label="Enable" minValue="0" maxValue="1" increment="1">0: Illuminators OFF, 1: Illuminators ON</param>
+      </entry>
       <entry value="410" name="MAV_CMD_GET_HOME_POSITION" hasLocation="false" isDestination="false">
         <description>Request the home position from the vehicle.</description>
         <param index="1">Reserved</param>
@@ -1858,6 +1874,10 @@
         <description>Request the target system(s) emit a single instance of a specified message (i.e. a "one-shot" version of MAV_CMD_SET_MESSAGE_INTERVAL).</description>
         <param index="1" label="Message ID" minValue="0" maxValue="16777215" increment="1">The MAVLink message ID of the requested message.</param>
         <param index="2" label="Index ID" minValue="0" increment="1">Index id (if appropriate). The use of this parameter (if any), must be defined in the requested message.</param>
+        <param index="3">The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).</param>
+        <param index="4">The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).</param>
+        <param index="5">The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).</param>
+        <param index="6">The use of this parameter (if any), must be defined in the requested message. By default assumed not used (0).</param>
         <param index="7" label="Response Target" minValue="0" maxValue="2" increment="1">Target address for requested message (if message has target address fields). 0: Flight-stack default, 1: address of requestor, 2: broadcast.</param>
       </entry>
       <entry value="519" name="MAV_CMD_REQUEST_PROTOCOL_VERSION" hasLocation="false" isDestination="false">
@@ -2632,6 +2652,36 @@
       <entry value="10" name="SERIAL_CONTROL_DEV_SHELL">
         <description>system shell</description>
       </entry>
+      <entry value="100" name="SERIAL_CONTROL_SERIAL0">
+        <description>SERIAL0</description>
+      </entry>
+      <entry value="101" name="SERIAL_CONTROL_SERIAL1">
+        <description>SERIAL1</description>
+      </entry>
+      <entry value="102" name="SERIAL_CONTROL_SERIAL2">
+        <description>SERIAL2</description>
+      </entry>
+      <entry value="103" name="SERIAL_CONTROL_SERIAL3">
+        <description>SERIAL3</description>
+      </entry>
+      <entry value="104" name="SERIAL_CONTROL_SERIAL4">
+        <description>SERIAL4</description>
+      </entry>
+      <entry value="105" name="SERIAL_CONTROL_SERIAL5">
+        <description>SERIAL5</description>
+      </entry>
+      <entry value="106" name="SERIAL_CONTROL_SERIAL6">
+        <description>SERIAL6</description>
+      </entry>
+      <entry value="107" name="SERIAL_CONTROL_SERIAL7">
+        <description>SERIAL7</description>
+      </entry>
+      <entry value="108" name="SERIAL_CONTROL_SERIAL8">
+        <description>SERIAL8</description>
+      </entry>
+      <entry value="109" name="SERIAL_CONTROL_SERIAL9">
+        <description>SERIAL9</description>
+      </entry>
     </enum>
     <enum name="SERIAL_CONTROL_FLAG">
       <description>SERIAL_CONTROL flags (bitmask)</description>
@@ -3058,6 +3108,9 @@
       <entry value="16" name="ADSB_FLAGS_VALID_CALLSIGN"/>
       <entry value="32" name="ADSB_FLAGS_VALID_SQUAWK"/>
       <entry value="64" name="ADSB_FLAGS_SIMULATED"/>
+      <entry value="128" name="ADSB_FLAGS_VERTICAL_VELOCITY_VALID"/>
+      <entry value="256" name="ADSB_FLAGS_BARO_VALID"/>
+      <entry value="32768" name="ADSB_FLAGS_SOURCE_UAT"/>
     </enum>
     <enum name="MAV_DO_REPOSITION_FLAGS">
       <description>Bitmap of options for the MAV_CMD_DO_REPOSITION</description>
