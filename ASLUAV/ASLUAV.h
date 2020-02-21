@@ -189,6 +189,7 @@ typedef enum MAV_CMD
    MAV_CMD_USER_3=31012, /* User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  */
    MAV_CMD_USER_4=31013, /* User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  */
    MAV_CMD_USER_5=31014, /* User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  */
+   MAV_CMD_QUAT_GOV_INFO1=31020, /* User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  */
    MAV_CMD_RESET_MPPT=40001, /* Mission command to reset Maximum Power Point Tracker (MPPT) |MPPT number| Empty| Empty| Empty| Empty| Empty| Empty|  */
    MAV_CMD_PAYLOAD_CONTROL=40002, /* Mission command to perform a power cycle on payload |Complete power cycle| VISensor power cycle| Empty| Empty| Empty| Empty| Empty|  */
    MAV_CMD_ENUM_END=40003, /*  | */

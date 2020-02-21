@@ -2360,6 +2360,16 @@
         <param index="6">User defined</param>
         <param index="7">User defined</param>
       </entry>
+      <entry value="31020" name="MAV_CMD_QUAT_GOV_INFO1" hasLocation="false" isDestination="false">
+        <description>User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item.</description>
+        <param index="1">User defined</param>
+        <param index="2">User defined</param>
+        <param index="3">User defined</param>
+        <param index="4">User defined</param>
+        <param index="5">User defined</param>
+        <param index="6">User defined</param>
+        <param index="7">User defined</param>
+      </entry>
       <!-- END of user range (31000 to 31999) -->
     </enum>
     <enum name="MAV_DATA_STREAM">
